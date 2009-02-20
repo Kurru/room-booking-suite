@@ -1,0 +1,144 @@
+/* CSS Document */
+
+body {
+/*	background-color:#EAEAEA;*/
+	text-align:justify;
+	background-color: #A9A9A9;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+}
+
+table.centertable td {
+	text-align: center;
+}
+.surround {
+/*	background-color:#FFFFFF; */
+	position: relative;
+	width: 780px;
+	margin: auto;
+	background-color: #EDEDED;
+	padding: 10px;
+	padding-top: 7px;
+	border: solid thin #C9C9C9;
+}
+table {
+
+}
+
+.frontPageAlert {
+	font-weight:bold;
+	color:#FF3300;
+	font-size: 24px;
+}
+
+table.dayView {
+	margin-top: 3px;
+	border-collapse: collapse;
+	border-color: #BBBBBB;
+	border-width: thin;
+	border-style: solid;
+}
+table.dayView td {
+	border-width: 1px;
+	border-color: #CCCCCC;
+	border-style: groove;
+}
+
+table.bookings td {
+	text-align: center;
+}
+table.bookings thead tr td {
+	border-width: thin;
+	border-style: solid;
+	border-color: #BBBBBB;
+	font-weight: bold;
+}
+table.bookings {
+	border-collapse: collapse;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #BBBBBB;
+}
+table.bookings td {
+	border-width: thin;
+	border-style: solid;
+	border-color: #CCCCCC;
+}
+td.alignTop {
+vertical-align:top;
+}
+.note {
+	font-size: 18px;
+	font-weight: bold;
+}
+.alright {
+	text-align: right;
+}
+.alcenter {
+	text-align: center;
+}
+.alleft {
+	text-align: left;
+}
+h1 {
+	font-size: 32px;
+}
+h2 {
+	font-size: 25px;
+}
+h4, .h4 {
+	font-size: 17px;
+}
+.bold {
+	font-weight: bold;
+}
+.attention {
+	font-size: 17px;
+	font-weight: bolder;
+}
+
+.nav {
+	font-size: 14px;
+	text-align: center;
+	margin-bottom: 20px;
+}
+legend {
+color: #0033FF;
+}
+
+.greenBorder {
+border-color: #00CC00;
+border-style:solid;
+}
+
+.redBorder {
+border-color: #FF0000;
+border-style:solid;
+}
+
+.errorMsg {
+color:#FF0000;
+font-weight:bold;
+}
+
+.nav a {
+	
+}
+
+.i {
+	font-style:italic;
+}
+.b {
+	font-weight:bold;
+}
+.small {
+	font-size:11px;
+}
+
+
+a:link, a:visited, a:active {
+	color: #EE0000;
+}
+a:hover {
+	color: #821A1B;
+}
