@@ -1,0 +1,91 @@
+Room Booking Software
+Created by Richard Currie [kurru@animeequation]
+
+
+== ChangeLog version 2.0.5 ==
+
+== bug fixes ==
+* fixed bug
+* changed error reporting level on all instances to more reasonable value
+
+
+== Changelog version 2.0.4 ==
+
+=== bug fixes == 
+*fixed bug that prevented "Booking Limit Offset" from working correctly
+
+##Files Affected##
+-> classes/booking.php
+
+
+
+
+
+== Changelog version 2.0.3 ==
+
+=== bug fixes ===
+* fixed MYSQL bug in the installer which didnt setup a full table data
+
+
+
+
+
+
+
+== Changelog version 2.0.2 == 
+
+=== bug fixes ===
+* serveral MYSQL errors fixed in the installer which were preventing the installer from working.
+
+
+
+
+
+
+== Changelog version 2.0.1 ==
+
+=== bug fixes ===
+* bug fixed where 2 bookings could be made for the same location and time.
+
+
+
+
+
+
+
+
+== Changelog Version 2.0 ==
+
+==== new features ====
+* system now can hold the bookings from multiple years [for supposed analyisis]
+* system can now limit the number of bookings made by users over the time period of the current school year. This can be adjusted for individual users as well
+
+system administration
+* System customisable. Can edit system title, periods, period times, rooms, subjects, classes etc
+* Backup creation and restore functionality
+* Single booking data output in csv [comma separated variable] format
+
+user administration
+* added edit username feature
+* added edit user level feature
+* added edit user booking limit offset feature
+
+
+==== bug fixes ====
+
+* notes - refresh after creating/saving/deleting a note now refreshes correctly
+* booking's table - now filters booking data to take into account the various years
+* your bookings - now offers a link to standard booking view
+
+==== database changes ====
+ALL TABLES RENAMED TO 'booking*TABLE_FUNCTION*'
+
+*bookingsingle	 		- table expanded to take into account the new day reference format
+*bookingpermanent	 	- table expanded to take into account the school year
+*bookingnotes			- table expanded to take into account the various years
+
+*bookingareas 			- table added
+*bookingclasses 		- table added
+*bookingperiods			- table added
+*bookingsettings		- table added
+*bookingsubjects		- table added
