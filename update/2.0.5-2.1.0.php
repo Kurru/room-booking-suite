@@ -29,7 +29,7 @@ $query[] = "ALTER TABLE `bookingperiods` ADD `name` VARCHAR( 255 ) NOT NULL AFTE
 
 foreach ($query as $sql)
 {
-	//database::executeQuery($sql);
+	database::executeQuery($sql);
 }
 echo "Table changed.<br /><br /><br /><br />";
 echo "<br />";
