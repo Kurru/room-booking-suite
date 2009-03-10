@@ -167,6 +167,11 @@ function checkSubmit()
 		var elementFunction = elements[i].type;
 		if (elementName.toLowerCase() == 'input' && elementFunction.toLowerCase() != "submit" && elementFunction.toLowerCase() != "button")
 		{
+        	var id = elements[i].id;
+            var indexOFName = id.indexOf("name");
+            if (indexOFName >= 0)
+            	continue;
+        
 			var pattern = /^[0-2]?[0-9]\.[0-5][0-9]$/;
 			
 			if (pattern.test(elements[i].value))
@@ -244,7 +249,14 @@ function colorFields()
 		{
 			var textField = elements[i];
 			var value = textField.value;
-			textField.onchange = checkField;
+            var id = elements[i].id;
+            
+            var indexofName = id.indexOf("name");
+            if (indexofName >=0)
+            	continue;
+            
+            
+            textField.onchange = checkField;
 			
 			var pattern = /^[0-2]?[0-9]\.[0-5][0-9]$/;
 			

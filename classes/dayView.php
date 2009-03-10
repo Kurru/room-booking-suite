@@ -109,7 +109,8 @@ class dayView
 			$items = $data[$i];
 			echo "\t<tr>\n";
 			$j = $i + 1;
-			echo "\t\t<td>{$j}</td>\n";	//print the period number
+			$periodName = $periodTimes[$i]['name'];
+			echo "\t\t<td>{$periodName}</td>\n";	//print the period number
 			
 			echo "\t\t<td>";
 			echo $periodTimes[$i]['starttime'].' - '.$periodTimes[$i]['endtime'];	// print the period times

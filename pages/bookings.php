@@ -90,6 +90,8 @@ echo "<br /><br />\n";
 echo "<table class=\"bookings\" width=\"100%\">\n";
 echo "\t<thead><tr><td></td><td>Date</td><td>Period</td><td>Room</td><td>Subject</td><td>Class</td><td></td></tr></thead>\n";
 
+$query = "SELECT * FROM bookingperiods ORDER BY number";
+$periodData = database::executeQuery($query);
 
 $query = "SELECT * FROM bookingsingle WHERE username='$username' AND schoolYear='$displayedYearText' ORDER BY day DESC,month DESC,year DESC";
 $results = database::executeQuery($query);
@@ -103,6 +105,7 @@ if ($numberResults > 0)
 		$room_data = database::getRoomName($room_id);
 		$room_name = $room_data['name'];
 		$period = $booking['period'];
+		$periodName = $periodData[$period-1]['name'];
 		
 		$result = database::executeQuery("SELECT starttime FROM bookingperiods WHERE number='$period'");
 		$time = explode(".",$result[0]['starttime']);
@@ -115,7 +118,7 @@ if ($numberResults > 0)
 		echo "\t<tr>\n";
 		echo "\t\t<td>".$link."</td>\n";
 		echo "\t\t<td>".$date."</td>\n";
-		echo "\t\t<td>".$period."</td>\n";
+		echo "\t\t<td>".$periodName."</td>\n";
 		echo "\t\t<td>".$room_name."</td>\n";
 		echo "\t\t<td>".$booking['subject']."</td>\n";
 		echo "\t\t<td>".$booking['class']."</td>\n";
@@ -149,14 +152,25 @@ if ($num_results > 0)
 		$room_data = database::getRoomName($room_id);
 		$room_name = $room_data['name'];
 		$period = $booking['period'];
+		$periodName = $periodData[$period-1]['name'];
 		
 		
 		$urlstring = "dayName=".$booking['day']."&schoolYear=".$displayedYearText."&period=".$period."&room=".$room_id;
 
+		$dayName = $booking['day'];
+		if ($dayName == "Tue")
+			$dayName = "Tues";
+		elseif ($dayName == "Wed")
+			$dayName = "Wednes";
+		elseif ($dayName == "Thu")
+			$dayName = "Thurs";
+		
+		$dayName .= "day";
+		
 		echo "\t<tr>\n";
-		echo "\t\t<td>".$booking['day']."day</td>\n";
-		echo "\t\t<td>".$booking['day']."day</td>\n";
-		echo "\t\t<td>".$booking['period']."</td>\n";
+		echo "\t\t<td>".$dayName."</td>\n";
+		echo "\t\t<td>".$dayName."</td>\n";
+		echo "\t\t<td>".$periodName."</td>\n";
 		echo "\t\t<td>".$room_name."</td>\n";
 		echo "\t\t<td>".$booking['subject']."</td>\n";
 		echo "\t\t<td>".$booking['class']."</td>\n";

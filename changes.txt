@@ -1,6 +1,32 @@
 Room Booking Software
 Created by Richard Currie [kurru@animeequation]
 
+== ChangeLog version 2.1.0 ==
+
+== New Features ==
+* Periods now have names. This is purely a superficial effect. ORDER must be maintained. 
+So if new periods are to be added, must be at end of the period list unless you are dealing 
+with a system with no bookings or dont mind breaking the bookings already made by users
+for the future. 
+
+EG. 3 periods: P1 = 1, P2 = 2, P3 = 3.
+If you want to add in Lunch between P2 and P3. Then the system would change to P1=1, P2=2, Lunch=3, P3=4. 
+So people who had booked for the 3rd slot [P3] now are set for Lunch [the new 3rd slot] 
+
+### ABOVE IS BAD! FOLLOWING IS GOOD! ###
+
+If you want to add a lunch, you must add it to the end of the set
+P1=1, P2=2, P3=3, Lunch=4
+
+This is as Bookings are referenced to the nth Slot each day and are not ordered as to starting times. 
+
+== bug fixes ==
+* fixed day reporting in 'Your Bookings' page
+
+== other changes == 
+* renamed createcvs.php to createCSV.php [spelling mistake]
+
+
 
 == ChangeLog version 2.0.5 ==
 
