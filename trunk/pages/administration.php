@@ -57,7 +57,7 @@ if (security::get_level('1') >= 2) // does user have enough permissions to view 
 		echo "\t\t\t<fieldset>\n";
 		echo "\t\t\t<legend>Data Export/Import</legend>\n";
 		echo "\t\t\t<ul>\n";
-		echo "\t\t\t<li><a href='?page=Administration&section=bookingcsv'>Export Booking Data as CSV</a></li>\n";
+		echo "\t\t\t<li><a href='?page=Administration&section=bookingCSV'>Export Booking Data as CSV</a></li>\n";
 		echo "\t\t\t<li><a href='?page=Administration&section=backupsystem'>Backup System Data</a></li>\n";
 		echo "\t\t\t<li><a href='?page=Administration&section=restoresystem'>Restore System Data</a></li>\n";
 		echo "\t\t\t</ul>\n";
@@ -926,11 +926,9 @@ foreach ($areas as $index => $area)
 	}
 	elseif ($section == 'editperiods')
 	{
-			echo "<h1>Edit Period Times</h1>";
+			echo "<h1>Edit Period Data</h1>";
 		if ($confirmation != true) // display form
 		{
-			$query = "SELECT * FROM bookingusers ORDER BY username";
-			$users = database::executeQuery($query);
 			$query = "SELECT * FROM bookingperiods ORDER BY number";
 			$period_raw = database::executeQuery($query);
 			
@@ -951,6 +949,7 @@ foreach ($areas as $index => $area)
 			echo "<table>\n";
 			echo "\t<tr>\n";
 			echo "\t\t<td class=\"alcenter attention\">Period Number</td>\n";
+			echo "\t\t<td class=\"alcenter attention\">Period Name</td>\n";
 			echo "\t\t<td class=\"alcenter attention\">Start Time</td>\n";
 			echo "\t\t<td class=\"alcenter attention\">End Time</td>\n";
 			echo "\t</tr>\n";
@@ -959,6 +958,12 @@ foreach ($areas as $index => $area)
 				echo "\t<tr>\n";
 				echo "\t\t<td class=\"alcenter\">\n";
 				echo "\t\t\t{$i}\n";
+				echo "\t\t</td>\n";
+				echo "\t\t<td>\n";
+				$name = $periods[$i]['name'];
+				if ($name == "")
+					$name = "Period ".$i;
+				echo "\t\t\t<input type=\"text\" name=\"period{$i}_name\" id=\"period{$i}_name\" value=\"".$name."\" />\n";
 				echo "\t\t</td>\n";
 				echo "\t\t<td>\n";
 				echo "\t\t\t<input type=\"text\" name=\"period{$i}_start\" id=\"period{$i}_start\" value=\"".$periods[$i]['starttime']."\" />\n";
@@ -982,6 +987,7 @@ foreach ($areas as $index => $area)
 			{
 				$data = array();
 				$data['period'] = $i;
+				$data['name'] = raw_param_post("period".$i."_name");
 				$data['starttime'] = raw_param_post("period".$i."_start");
 				$data['endtime'] = raw_param_post("period".$i."_end");
 				$periodData[$i] = $data;
@@ -1008,13 +1014,17 @@ foreach ($areas as $index => $area)
 			{
 				// update all the period data
 				$number = $period['period'];
+				$name = $period['name'];
+				echo $name;
+				if ($name == "")
+					$name = "Period ".$number;
 				$starttime = $period['starttime'];
 				$endtime = $period['endtime'];
-				$query = "UPDATE bookingperiods SET starttime='$starttime', endtime='$endtime' WHERE number='$number'";
+				$query = "UPDATE bookingperiods SET name='$name', starttime='$starttime', endtime='$endtime' WHERE number='$number'";
 				database::executeQuery($query);
 			}
 			
-			echo "Periods have be updated to their new times.\n";
+			echo "Period data has been updated to the new values.\n";
 			echo "<br /><br />\n";
 			echo "<a href='?page=Administration'>Return To Admin</a>\n";
 		}
@@ -1189,15 +1199,15 @@ foreach ($areas as $index => $area)
 		echo "<br /><br />\n";
 		echo "<a href='?page=Administration'>Return To Admin</a>\n";
 	}
-	elseif ($section == 'bookingcsv')
+	elseif ($section == 'bookingCSV')
 	{
 		echo "<h1>Create CSV file</h1>";
-		echo "To create a CSV file containing all the individual booking data, click the following link or enter a specific school year below.<br /><span class='b'>Note:</span> Bookings that are repetitive [weekly] are not included in the following output.\n<br />";
+		echo "To create a  file containing all the individual booking data, click the following link or enter a specific school year below.<br /><span class='b'>Note:</span> Bookings that are repetitive [weekly] are not included in the following output.\n<br />";
 		echo "This data can be used in Excel to perform analysis on the bookings.\n";
 		echo "<br /><br />\n";
-		echo "<a href='createCVS.php'>All data</a><br /><br />\n";
+		echo "<a href='createCSV.php'>All data</a><br /><br />\n";
 		$schoolYear = generateSchoolYear(date("m"),date("Y"));
-		echo "<form id='year'><input type='text' name='schoolYear' id='schoolYear' value='$schoolYear' /><input type='button' value='Get CVS for Year' onclick=\"var schoolYear=document.getElementById('schoolYear');schoolYear = schoolYear.value;window.location='createCVS.php?schoolYear='+schoolYear;\" /></form>";
+		echo "<form id='year'><input type='text' name='schoolYear' id='schoolYear' value='$schoolYear' /><input type='button' value='Get CSV for Year' onclick=\"var schoolYear=document.getElementById('schoolYear');schoolYear = schoolYear.value;window.location='createCSV.php?schoolYear='+schoolYear;\" /></form>";
 		echo "<br />";
 		echo "<br /><br />\n";
 		echo "<a href='?page=Administration'>Return To Admin</a>\n";

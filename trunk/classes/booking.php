@@ -34,6 +34,14 @@ class booking
 		$user_level = security::get_level('');
 		$day_name = date("D",mktime(1,1,1,$month,$day,$year));
 
+
+		// get the period's name
+		$query = "SELECT * FROM bookingperiods WHERE number='$period'";
+		$result = database::executeQuery($query);
+		$periodName = $result[0]['name'];
+
+
+
 		$normalBooking = normal::getBookingData($day,$month,$year,$room_id,$period);
 		$repetitiveBooking = repetitive::getBookingData($day_name,$room_id,$period,generateSchoolYear($month,$year));
 	
@@ -68,12 +76,12 @@ class booking
 		
 		echo "<h2>Booking Details</h2>\n";
 		
-		echo "The selected booking is for <b>Period $period</b> for <b>$room_name</b> on <b>".date('l, jS F Y',mktime(1,1,1,$month,$day,$year))."</b>\n<br /><br />\n";
+		echo "The selected booking is for <b>$periodName</b> for <b>$room_name</b> on <b>".date('l, jS F Y',mktime(1,1,1,$month,$day,$year))."</b>\n<br /><br />\n";
 		echo "<table class=\"review\" border='0'>\n";
 		echo "\t<tr><td>Booked By:</td><td class='center'>".$booking['username']."</td></tr>\n";
 		echo "\t<tr><td>Date:</td><td class='center'>".date('l, jS F Y',mktime(1,1,1,$month,$day,$year))."</tr>\n";
 		echo "\t<tr><td>Room:</td><td class='center'>".$room_name."</tr>\n";
-		echo "\t<tr><td>Period:</td><td class='center'>".$period."</tr>\n";
+		echo "\t<tr><td>Period:</td><td class='center'>".$periodName."</tr>\n";
 		echo "\t<tr><td>Class:</td><td class='center'>".$booking['class']."</tr>\n";
 		echo "\t<tr><td>Subject:</td><td class='center'>".$booking['subject']."</tr>\n";
 		echo "\t<tr><td>Type of Booking:</td><td class='center'>";if($typeNormal===false){echo "Yearly";}elseif($typeNormal === true){echo "Single";} else {echo "ERROR: ERROR 12432. No booking detected.";} echo"</td></tr>\n";
@@ -137,9 +145,13 @@ class booking
 		$day_name = date("D",mktime(1,1,1,$month,$day,$year));
 		$user_level = security::get_level('');
 
+		$query = "SELECT * FROM bookingperiods WHERE number='$period'";
+		$result = database::executeQuery($query);
+		$periodName = $result[0]['name'];
+
 		// display the form to book the period
 		echo "<h2>Booking</h2>";
-		echo "You wish to book Period $period in $room_name on ".date('l, jS F Y',mktime(1,1,1,$month,$day,$year))."\n";
+		echo "You wish to book $periodName in $room_name on ".date('l, jS F Y',mktime(1,1,1,$month,$day,$year))."\n";
 		echo "<br /><br />\n";
 		echo "Select the class and the subject for which you wish to book the room for.\n<br /><br />\n";
 		echo "<form name=\"bookingform\" id=\"bookingForm\" method=\"post\" action=\"?day=$day&month=$month&year=$year&period=$period&room=$room_id&type=BookPeriod\">\n";
@@ -313,7 +325,12 @@ class booking
 						echo "$deleted single bookings have been deleted from the system.<br />\n";
 						$query = "INSERT INTO bookingpermanent (username,day,room,period,timebooked,subject,class,schoolYear,reasonID) VALUES ('$username','$dayName','$room_id','$period','$timebooked','$subject','$class','$schoolYear','$bookingReason')";
 						database::executeQuery($query);
-						echo "Period has been successfully booked for every {$dayName} during Period {$period} in {$room_name}.\n<br /><br /><a href=\"javascript:window.close();\">Close Window</a>\n";
+						
+						$query = "SELECT * FROM bookingperiods WHERE number='$period'";
+						$result = database::executeQuery($query);
+						$periodName = $result[0]['name'];
+						
+						echo "Period has been successfully booked for every {$dayName} during {$periodName} in {$room_name}.\n<br /><br /><a href=\"javascript:window.close();\">Close Window</a>\n";
 					}
 					else // user is not autherised to set weekly bookings.
 					{
@@ -415,6 +432,10 @@ class booking
 		$room_name = $room_data['name'];
 		$period = raw_param("period");
 		
+		$query = "SELECT * FROM bookingperiods WHERE number='$period'";
+		$result = database::executeQuery($query);
+		$periodName = $result[0]['name'];
+		
 		$day_name = date("D",mktime(1,1,1,$month,$day,$year));
 		$normalBooked = normal::getBookingData($day,$month,$year,$room_id,$period);
 		$repetitiveBooked = repetitive::getBookingData($day_name,$room_id,$period,generateSchoolYear($month,$year));
@@ -434,7 +455,7 @@ class booking
 				
 				if ($numberPermanent >= 1 && $user_level >= 2) 
 				{
-					echo "Are you sure you wish to delete this booking? It has been booked for the entire <span class=\"attention\">year</span> for Period $period, $room_name on ".date('l, jS F Y',mktime(1,1,1,$month,$day,$year)).".\n";
+					echo "Are you sure you wish to delete this booking? It has been booked for the entire <span class=\"attention\">year</span> for $periodName, $room_name on ".date('l, jS F Y',mktime(1,1,1,$month,$day,$year)).".\n";
 					echo "<br />\n<br />\n";
 					echo "Are you sure you wish to delete this booking?\n";
 					echo "<form method=\"post\" action=\"?type=Unbook&confirmation=1&day=$day&month=$month&year=$year&period=$period&room=$room_id\">\n";
@@ -443,7 +464,7 @@ class booking
 				}
 				elseif ($user_level >= 1) 
 				{
-					echo "You have selected to delete a booking you made for Period $period in Room $room on ".date('l, jS F Y',mktime(1,1,1,$month,$day,$year)).".\n";
+					echo "You have selected to delete a booking you made for $periodName in $room_name on ".date('l, jS F Y',mktime(1,1,1,$month,$day,$year)).".\n";
 					echo "<br />\n<br />\n";
 					echo "Are you sure you wish to delete this booking?\n";
 					echo "<form method=\"post\" action=\"?type=Unbook&confirmation=1&day=$day&month=$month&year=$year&period=$period&room=$room_id\">\n";
@@ -521,6 +542,10 @@ class booking
 		$room_data = database::getRoomName($room_id);
 		$room_name = $room_data['name'];
 		$period = raw_param("period");
+	
+		$query = "SELECT * FROM bookingperiods WHERE number='$period'";
+		$result = database::executeQuery($query);
+		$periodName = $result[0]['name'];
 		
 		$repetitiveBooked = repetitive::getBookingData($day_name,$room_id,$period,$schoolYear);
 		
@@ -539,7 +564,7 @@ class booking
 				
 				if ($numberPermanent >= 1) 
 				{
-					echo "Are you sure you wish to delete this booking? It has been booked for the entire <span class=\"attention\">year</span> for Period $period, $room_name for {$day_name}days.\n";
+					echo "Are you sure you wish to delete this booking? It has been booked for the entire <span class=\"attention\">year</span> for $periodName, $room_name for {$day_name}days.\n";
 					echo "<br />\n<br />\n";
 					echo "Are you sure you wish to delete this booking?\n";
 					echo "<form method=\"post\" action=\"?type=Unbook&confirmation=1&dayName=$day_name&schoolYear={$schoolYear}&period=$period&room=$room_id\">\n";
