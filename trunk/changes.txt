@@ -1,6 +1,17 @@
 Room Booking Software
 Created by Richard Currie [kurru@animeequation]
 
+== ChangeLog version 2.1.1 ==
+
+
+== Bug fixes ==
+* when trying to book periods for September in August, incorrect month is shown by default. This is now no longer the case.
+
+== Miscellanious ==
+* Cache servers should no longer cache the result pages giving out of date information.
+
+
+
 == ChangeLog version 2.1.0 ==
 
 == New Features ==
