@@ -33,6 +33,11 @@ class monthView
 			$year = date("Y");
 		}
 		
+		if ($month == 8)
+		{
+			$month = 9;
+		}
+		
 		$nextMonth = $month + 1;
 		$previousMonth = $month - 1;
 		$previousYear = $year;
