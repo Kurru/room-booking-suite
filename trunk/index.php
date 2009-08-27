@@ -9,6 +9,7 @@ include_once("classes/settings.php");	// include the settings class
 <head>
 
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="Pragma" content="no-cache">
 <link rel="stylesheet" type="text/css" href="CSS/general.css" />
 <title><?php echo settings::get_systemTitle(); ?></title>
 <script type="text/javascript" src="javascript/general.php<?php echo "?page=".$_GET['page']."&section=".$_GET['section']."&confirmation=".$_GET['confirmation'].""; ?>"></script>
